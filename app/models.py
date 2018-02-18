@@ -37,10 +37,15 @@ class Test(db.Model):
     initial_pressure = db.Column(db.REAL)
     final_pressure = db.Column(db.REAL)
     buildup_pressure = db.Column(db.REAL)
+    comment = db.Column(db.String(1000))
     water_flow = db.Column(db.Boolean, default='False')
     oil_flow = db.Column(db.Boolean, default='False')
     scraped = db.Column(db.Boolean, default='False')
     scraper_name = db.Column(db.String(64))
+    date_scraped = db.Column(db.Date)
+
+    def __repr__(self):
+        return '<Document {}>'.format(self.doc_name)
 
 @login.user_loader
 def load_user(id):

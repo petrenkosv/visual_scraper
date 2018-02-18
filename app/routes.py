@@ -1,8 +1,9 @@
 from flask import render_template, flash, redirect, url_for, request
+from flask import send_from_directory
 from app import app, db
-from app.forms import LoginForm
+from app.forms import LoginForm, ScraperForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Test
 from werkzeug.urls import url_parse
 from datetime import datetime
 import os
@@ -50,18 +51,34 @@ def user(username):
     return render_template('user.html', user=user)
 
 
-#@app.route('/scraper/<filename>')
-#@login_required
-#def uploaded_doc(filename):
-#        return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
-@app.route('/scraper')
+#@app.route('/<path:path>')
+#@login_required
+#def send_file(path):
+#    return send_from_directory(url_for('static'), path)
+
+@app.route('/scraper/', methods=['GET', 'POST'])
 @login_required
 def scraper():
-    dir_path = os.path.dirname(__file__)
-    images = os.listdir(os.path.join(dir_path,'../scrape_docs'))
-    return render_template('files.html', images=images)
+    curr_doc = Test.query.filter_by(scraped=False).first()
+    form = ScraperForm()
+    if form.validate_on_submit():
+        curr_doc.test_date = form.test_date.data
+        curr_doc.initial_pressure = form.initial_pressure.data
+        curr_doc.final_pressure = form.final_pressure.data
+        curr_doc.buildup_pressure = form.buildup_pressure.data
+        curr_doc.water_flow = form.water_flow.data
+        curr_doc.oil_flow = form.oil_flow.data
+        curr_doc.scraped = True
+        curr_doc.scraper_name = current_user.username
+        curr_doc.comment = form.comment.data
+        curr_doc.date_scraped = datetime.utcnow()
+        db.session.commit()
+        flash('Data Successfully Submitted!')
+        return redirect(url_for('scraper'))
 
+    return render_template('scraper.html', title='Scraper', curr_doc=curr_doc,
+                          form = form)
 
 
 

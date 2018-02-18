@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+	<table class="table table-hover">
+		<tr>
+			<td width="100px">	
+				<p><img src ="{{ url_for('static', filename= curr_doc.doc_name)}}" alt="bradenhead_test" width="600" height="700"></p>
+				<p> Document Name: {{ curr_doc.doc_name }}</p>
+			</td>
+			<td>
+				<h1>Entry Data</h1>
+ 	       				<div class="row">
+						<div class="col-md-4">
+							{{ wtf.quick_form(form) }}
+						</div>
+	       				</div>
+			</td>
+		</tr>
+	</table>
+{% endblock %}
