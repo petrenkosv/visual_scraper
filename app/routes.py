@@ -5,6 +5,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
 from datetime import datetime
+import os
 
 @app.before_request
 def before_request():
@@ -47,4 +48,20 @@ def logout():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user.html', user=user)
+
+
+#@app.route('/scraper/<filename>')
+#@login_required
+#def uploaded_doc(filename):
+#        return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+
+@app.route('/scraper')
+@login_required
+def scraper():
+    dir_path = os.path.dirname(__file__)
+    images = os.listdir(os.path.join(dir_path,'../scrape_docs'))
+    return render_template('files.html', images=images)
+
+
+
 

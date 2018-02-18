@@ -1,0 +1,7 @@
+<section class="row">
+	{% for image in images %}
+	<section class="col-md-4 col-sm-6" style ="background-color: green;">
+		<a href="{{ url_for('static', filename='images/' + image) }}">{{ image }}</a>
+	</section>
+	{% endfor %}
+</section>
