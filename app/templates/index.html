@@ -2,9 +2,20 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% if form %}
-    {{ wtf.quick_form(form) }}
-    <br>
-    {% endif %}
+    <center>
+    <h1> Hi, {{ curr_user.username }}!</h1>
+    <p> You have scraped {{ curr_user.docs.count() }} documents. </p>
+    <p> A total of {{ scraped_docs }} documents have been scraped thus far. </p>
+    <p> There are {{ not_scraped_docs }} documents left to be scraped. </p>
+    </center>
+    <a class="btn btn-primary btn-lg btn-block" href={{ url_for('scraper') }} role="button">Begin Scraping</a>
+
+    <h1> Score Board </h1>
+    <table class ="table table-hover">
+	{% for user in users %}
+	<tr>
+		<td width="80px"><img src="{{ user.avatar(80) }}"></td>
+		<td> {{ user.username }}: {{user.docs.count()}} </p>
+	<tr>
+	{% endfor %}
 {% endblock %}

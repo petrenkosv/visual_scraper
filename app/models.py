@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index= True, unique = True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    docs = db.relationship('Documents', backref='scraper',lazy='dynamic')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -28,7 +29,8 @@ class User(UserMixin, db.Model):
             digest, size)
     last_seen = db.Column(db.DateTime,default=datetime.utcnow)
 
-class Test(db.Model):
+
+class Documents(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     doc_path = db.Column(db.String(500), index=True,unique=True)
     doc_name = db.Column(db.String(100), index=True,unique=True)
@@ -42,7 +44,33 @@ class Test(db.Model):
     oil_flow = db.Column(db.Boolean, default='False')
     scraped = db.Column(db.Boolean, default='False')
     scraper_name = db.Column(db.String(64))
+    scraper_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date_scraped = db.Column(db.Date)
+    user_id = db.Column(db.Integer)
+    in_use = db.Column(db.Boolean, default='False')
+
+    def __repr__(self):
+        return '<Document {}>'.format(self.doc_name)
+
+class PrevDoc(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    doc_id = db.Column(db.Integer)
+    doc_path = db.Column(db.String(500), index=True,unique=True)
+    doc_name = db.Column(db.String(100), index=True,unique=True)
+    api_number = db.Column(db.String(12), index=True)
+    test_date = db.Column(db.Date)
+    initial_pressure = db.Column(db.REAL)
+    final_pressure = db.Column(db.REAL)
+    buildup_pressure = db.Column(db.REAL)
+    comment = db.Column(db.String(1000))
+    water_flow = db.Column(db.Boolean, default='False')
+    oil_flow = db.Column(db.Boolean, default='False')
+    scraped = db.Column(db.Boolean, default='False')
+    scraper_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    scraper_name = db.Column(db.String(64))
+    date_scraped = db.Column(db.Date)
+    user_id = db.Column(db.Integer)
+    in_use = db.Column(db.Boolean, default='False')
 
     def __repr__(self):
         return '<Document {}>'.format(self.doc_name)
