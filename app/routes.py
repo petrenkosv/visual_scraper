@@ -126,8 +126,8 @@ def prev_scraper():
     curr_doc.in_use = False
     db.session.commit()
     #Tie the current doc to the previous doc!
-    curr_doc = Documents.query.filter_by(id=prev_doc.doc_id).first()
     prev_doc = PrevDoc.query.filter_by(user_id=current_user.id).first()
+    curr_doc = Documents.query.filter_by(id=prev_doc.doc_id).first()
     form = ScraperForm(test_date = prev_doc.test_date,
                        initial_pressure=prev_doc.initial_pressure,
                        final_pressure = prev_doc.final_pressure,
