@@ -12,12 +12,20 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class ScraperForm(FlaskForm):
-    test_date = DateField('Test Date (e.g. YYYY-MM-DD)',
-                          validators=[DataRequired()],
-                          render_kw={'autofocus':True})
-    initial_pressure = FloatField('Initial Pressure', validators=[InputRequired()])
-    final_pressure = FloatField('Final Pressure', validators=[Optional()])
-    buildup_pressure = FloatField('Buildup Pressure', validators=[Optional()])
+    test_date = DateField('Test Date (e.g. YYYY-MM-DD)', validators=[DataRequired()], render_kw={'autofocus':True})
+    init_bradenhead_pressure = FloatField('Initial Bradenhead Pressure', validators=[InputRequired()])
+    init_intermediate_1_pressure = FloatField('Initial Intermediate 1 Pressure', validators=[Optional()])
+    init_intermediate_2_pressure = FloatField('Initial Intermediate 2 Pressure', validators=[Optional()])
+    init_casing_pressure = FloatField('Initial Casing Pressure', validators=[Optional()])
+    init_tubing_pressure = FloatField('Initial Tubing Pressure', validators=[Optional()])
+    fin_bradenhead_pressure = FloatField('Final Bradenhead Pressure', validators=[Optional()])
+    fin_intermediate_1_pressure = FloatField('Final Intermediate 1 Pressure', validators=[Optional()])
+    fin_intermediate_2_pressure = FloatField('Final Intermediate 2 Pressure', validators=[Optional()])
+    fin_casing_pressure = FloatField('Final Casing Pressure', validators=[Optional()])
+    bradenhead_buildup_pressure = FloatField('Bradenhead Buildup Pressure', validators=[Optional()])
+    intermediate_1_buildup_pressure = FloatField('Intermediate 1 Buildup Pressure', validators=[Optional()])
+    intermediate_2_buildup_pressure = FloatField('Intermediate 2 Buildup Pressure', validators=[Optional()])
+    shut_in = BooleanField('Shut In')
     water_flow = BooleanField('Water Flow')
     oil_flow = BooleanField('Oil Flow')
     comment = TextAreaField('Comment', validators=[Length(min=0, max=1000)])

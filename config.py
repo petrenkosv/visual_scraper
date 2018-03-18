@@ -9,7 +9,7 @@ class Config(object):
         'pw':'lackey',
         'db':'visual_scraper',
         'host':'localhost',
-        'port':'5432',
+        'port':'5433',
     }
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
