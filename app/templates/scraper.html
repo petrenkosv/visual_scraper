@@ -8,11 +8,12 @@
 				<p><img src ="{{ url_for('static', filename= curr_doc.doc_name)}}" alt="bradenhead_test" width="650" height="800"></p>
 				<p> Document Name: {{ curr_doc.doc_name }}</p>
 			</td>
-			<td>
+			<td width ="1200px">
 				<h1>Entry Data</h1>
 					<p><a href=" {{ url_for('prev_scraper') }} ">Go Back</a></p>
- 	       				<div class="row">
+ 	       				<div class="row" style="width: 200%">
 						<div class="col-md-4">
+
 							{{ wtf.quick_form(form) }}
 						</div>
 						
